@@ -1,0 +1,72 @@
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+
+        /*
+        //Approach 1: Brute Force  T.C: O(N^2), S.C: O(1)
+        
+        for(int i=0;i<nums.length;i++)
+        {
+            for(int j=i+1;j<nums.length;j++)
+            {
+                if(nums[i] + nums[j] == target)
+                {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return new int[]{-1,-1}; 
+
+
+        //Approach 2: Using HashMap  T.C: O(N), S.C: O(N)
+
+        int n = nums.length;
+        HashMap<Integer, Integer> map = new HashMap<>();   //<element, index>
+        
+        for(int i=0; i<n; i++)   //traversing arr
+        {
+            int complement = target - nums[i];
+            
+            if(map.containsKey(complement))  //checking if complement exists in map
+            {
+                return new int[]{map.get(complement), i};
+            } 
+            
+            else 
+            {
+                map.put(nums[i], i);     //if complement doesm't exist in map then
+                                        //store arr[i] and its index in map
+            }
+        }
+        return new int[]{-1,-1};
+        */
+
+        // Approach 3: Using Two Pointer  T.C: O(NlogN), S.C: O(1)
+
+        int[][] sortedNums = new int[nums.length][2];    //making pair 
+
+        for (int i = 0; i < nums.length; i++) {
+            sortedNums[i] = new int[]{i, nums[i]};
+        }
+
+        Arrays.sort(sortedNums, (a, b) -> Integer.compare(a[1], b[1]));
+        int left = 0;
+        int right = nums.length-1;
+        
+
+        while(left <= right) {
+
+            int sum = sortedNums[left][1] + sortedNums[right][1];
+
+            if(sum == target) {
+                return new int[]{sortedNums[left][0], sortedNums[right][0]};
+            }
+            else if(sum < target) {
+                left++;
+            }
+            else {
+                right--;
+            }
+        }
+        return new int[]{-1,-1};
+    }
+}
